@@ -1,0 +1,38 @@
+  <head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+Temp: <span id = "temp"></span>
+<button onClick ="register()">Register Temp</button>
+
+<script>
+  const APIKey = "166a433c57516f51dfab1f7edaed8413";
+   
+    const queryURL = "https://api.openweathermap.org/data/2.5/weather?" +
+      "q=Austin,Texas&units=imperial&appid=" + APIKey;
+   
+      let temp = 0;
+
+    $.ajax({
+        url: queryURL,
+        method: "GET"
+      })
+      .then(function(response) {
+        console.log(response.main.temp)
+        $("#temp").text(response.main.temp)
+        temp = response.main.temp;
+    })
+
+    function register(){
+
+      let currentDate = new Date();
+      const weatherDatum ={
+        temp: temp,
+        time: currentDate
+      }
+
+      $.post("http://localhost:3000/register", weatherDatum).then(() => alert("record saved"))
+    }
+
+  </script>
+</body>
